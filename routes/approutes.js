@@ -177,4 +177,4 @@ router.get('/cont_showg', contratController.showg)
 router.get('/cont_showc/:id', contratController.showc)
 router.get('/cont_showcep/:id', contratController.showctemp)
 router.get('/cont_showpf/:tipo/:id', contratController.showpf)
-module.exports = router;
+module.exports = router; 
