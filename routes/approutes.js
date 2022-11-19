@@ -112,6 +112,7 @@ router.post('/shop_showrpt', shopsController.showrpt)
 
 //-- Rutas de ventas --//
 router.post('/sale_register', salesController.save)
+router.post('/sale_registerd', salesController.saved)
 router.post('/sale_registerant', salesController.saveAnt)
 router.post('/sale_registcta', salesController.saveCta)
 router.put('/sale_update', md_auth.authenticated, salesController.update)

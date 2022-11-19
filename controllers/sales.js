@@ -7,26 +7,60 @@ const controller = {
     save: (req, res) => {
 		//-- Recoger los parámetros de la petición
 		var params = req.body
-
+        
 		//-- Validar los datos
 		try{
-            var validate_fecha = !validator.isEmpty(params.vta_fecha);
-            var validate_numf = !validator.isEmpty(params.vta_numf);
-            var validate_prop = !validator.isEmpty(params.vta_prop);
-            var validate_cferef = !validator.isEmpty(params.vta_cferef);                        
+            var validate_prop = !validator.isEmpty(params.vtam_prop);
+            var validate_fecha = !validator.isEmpty(params.vtam_fecha);                       
         }catch(err){
             return res.status(500).send({
 				status: "Error",
 				message: "Faltan parámetros, intente de nuevo!"
 			}) 
         }
-		if(validate_fecha && validate_numf && validate_prop && validate_cferef){
+		if(validate_prop && validate_fecha){
 			//-- Crear objeto de venta
-            const {vta_fecha, vta_numf, vta_pesob, vta_sacos, vta_pneto, vta_humed, vta_qqref, vta_qqoro, vta_precio, vta_total, vta_prop, vta_cferef, vta_deposito, vta_anticipo, vta_tpago, cust_id, vta_nwentrega, vta_carga, vta_tipoc, ctvt_id, vta_sts_pago, vta_tipo_pago,vta_desc_pago,vta_neto_exet, vta_neto_sob,vta_qq_ref, vta_preciosob, vta_totalsob } = params;
+            const {vtam_fecha, vtam_numf, vtam_prop, vtam_anticipo, vtam_sts_pago, vtam_tipo_pago, vtam_desc_pago, vtam_totalv, cust_id } = params;
             const query = `
-                INSERT INTO cstb_sales (vta_fecha, vta_numf, vta_pesob, vta_sacos, vta_pneto, vta_humed, vta_qqref, vta_qqoro, vta_precio, vta_total, vta_prop, vta_cferef, vta_deposito, vta_anticipo, vta_tpago, vta_carga, vta_tipoc, ctvt_id, cust_id, vta_sts_pago,vta_desc_pago) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                INSERT INTO cstb_salesm (vtam_fecha, vtam_numf, vtam_prop, vtam_anticipo, vtam_sts_pago, vtam_tipo_pago, vtam_desc_pago, vtam_totalv, cust_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
             `
-            mysqlConnection.query(query, [vta_fecha, vta_numf, vta_pesob, vta_sacos, vta_pneto, vta_humed, vta_qqref, vta_qqoro, vta_precio, vta_total, vta_prop, vta_cferef, vta_deposito, vta_anticipo, vta_tpago, vta_carga, vta_tipoc, ctvt_id, cust_id, vta_sts_pago,vta_desc_pago], (err, rows, fields)=>{
+            mysqlConnection.query(query, [vtam_fecha, vtam_numf, vtam_prop, vtam_anticipo, vtam_sts_pago, vtam_tipo_pago, vtam_desc_pago, vtam_totalv, cust_id], (err, rows, fields)=>{
+                if(err){
+                    return res.status(500).send({
+                        status: "Error",
+                        message: "Error al registrar venta!",
+                        error: err
+                    });  
+                }
+                var vtaid=rows.insertId
+                return res.status(200).send({
+                    status: "success",
+                    idsale: vtaid
+                });
+            });
+        }
+    },
+    saved: (req, res) => {
+		//-- Recoger los parámetros de la petición
+		var params = req.body
+
+		//-- Validar los datos
+		try{
+            var validate_pago = !validator.isEmpty(params.vta_tpago);
+            var validate_deposito = !validator.isEmpty(params.vta_deposito);                       
+        }catch(err){
+            return res.status(500).send({
+				status: "Error",
+				message: "Faltan parámetros, intente de nuevo!"
+			}) 
+        }
+		if(validate_pago && validate_deposito){
+			//-- Crear objeto de venta
+            const {vta_pesob, vta_sacos, vta_pneto, vta_humed, vta_qqref, vta_qqoro, vta_precio, vta_total, vta_cferef, vta_deposito, vta_tpago, vta_contrato, vta_nwentrega, vta_carga, vta_tipoc, ctvt_id, vtam_id, vta_neto_exet, vta_neto_sob, vta_qq_ref, vta_preciosob, vta_totalsob } = params;
+            const query = `
+                INSERT INTO cstb_sales (vta_pesob, vta_sacos, vta_pneto, vta_humed, vta_qqref, vta_qqoro, vta_precio, vta_total, vta_cferef, vta_deposito, vta_tpago, vta_contrato, vta_carga, vta_tipoc, ctvt_id, vtam_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            `
+            mysqlConnection.query(query, [vta_pesob, vta_sacos, vta_pneto, vta_humed, vta_qqref, vta_qqoro, vta_precio, vta_total, vta_cferef, vta_deposito, vta_tpago, vta_contrato, vta_carga, vta_tipoc, ctvt_id, vtam_id], (err, rows, fields)=>{
                 if(err){
                     return res.status(500).send({
                         status: "Error",
@@ -70,9 +104,9 @@ const controller = {
                                         var vqoro = vta_qq_ref / 1.25; //--calculo qq oro
 
                                         const queryex = `
-                                                INSERT INTO cstb_sales (vta_fecha, vta_numf, vta_pesob, vta_sacos, vta_pneto, vta_humed, vta_qqref, vta_qqoro, vta_precio, vta_total, vta_prop, vta_cferef, vta_deposito, vta_anticipo, vta_tpago, vta_carga, vta_tipoc, ctvt_id, cust_id, vta_sts_pago,vta_desc_pago) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                                        INSERT INTO cstb_sales (vta_pesob, vta_sacos, vta_pneto, vta_humed, vta_qqref, vta_qqoro, vta_precio, vta_total, vta_cferef, vta_deposito, vta_tpago, vta_contrato, vta_carga, vta_tipoc, ctvt_id, vtam_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
                                             `
-                                            mysqlConnection.query(queryex, [vta_fecha, vta_numf, vta_pesob, vta_sacos, vta_neto_sob, vta_humed, vta_qq_ref, vqoro, vta_preciosob, vta_totalsob, vta_prop, vta_cferef, vta_deposito, vta_anticipo, vta_tpago, vta_carga, vta_tipoc, ctvt_id, cust_id, vta_sts_pago,vta_desc_pago], (err, rowsex, fields)=>{
+                                            mysqlConnection.query(queryex, [vta_pesob, vta_sacos, vta_neto_sob, vta_humed, vta_qq_ref, vqoro, vta_preciosob, vta_totalsob, vta_cferef, vta_deposito, vta_tpago, vta_contrato, vta_carga, vta_tipoc, ctvt_id, vtam_id], (err, rowsex, fields)=>{                   
                                                 if(err){
                                                 return res.status(500).send({
                                                     status: "Error",
@@ -81,14 +115,12 @@ const controller = {
                                                 });  
                                             }
                                             return res.status(200).send({
-                                                status: "success",
-                                                sales: vtaid
+                                                status: "success"
                                             });
                                         });
                                     }else{
                                         return res.status(200).send({
-                                            status: "success",
-                                            sales: vtaid
+                                            status: "success"
                                         });
                                     }
                                 });
@@ -118,9 +150,9 @@ const controller = {
                                         var vqoro = vta_qq_ref / 1.25; //--calculo qq oro
 
                                         const queryex = `
-                                                INSERT INTO cstb_sales (vta_fecha, vta_numf, vta_pesob, vta_sacos, vta_pneto, vta_humed, vta_qqref, vta_qqoro, vta_precio, vta_total, vta_prop, vta_cferef, vta_deposito, vta_anticipo, vta_tpago, vta_carga, vta_tipoc, ctvt_id, cust_id, vta_sts_pago, vta_desc_pago) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, ?, ?, ?);
+                                                INSERT INTO cstb_sales (vta_pesob, vta_sacos, vta_pneto, vta_humed, vta_qqref, vta_qqoro, vta_precio, vta_total, vta_cferef, vta_deposito, vta_tpago, vta_contrato, vta_carga, vta_tipoc, ctvt_id, vtam_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
                                             `
-                                            mysqlConnection.query(queryex, [vta_fecha, vta_numf, vta_pesob, vta_sacos, vta_neto_sob, vta_humed, vta_qq_ref, vqoro, vta_preciosob, vta_totalsob, vta_prop, vta_cferef, vta_deposito, vta_tpago, vta_carga, vta_tipoc, ctvt_id, cust_id, vta_sts_pago,vta_desc_pago], (err, rowsex, fields)=>{
+                                            mysqlConnection.query(queryex, [vta_pesob, vta_sacos, vta_neto_sob, vta_humed, vta_qq_ref, vqoro, vta_preciosob, vta_totalsob, vta_cferef, vta_deposito, vta_tpago, vta_contrato, vta_carga, vta_tipoc, ctvt_id, vtam_id], (err, rowsex, fields)=>{
                                                 if(err){
                                                 return res.status(500).send({
                                                     status: "Error",
@@ -129,14 +161,12 @@ const controller = {
                                                 });  
                                             }
                                             return res.status(200).send({
-                                                status: "success",
-                                                sales: vtaid
+                                                status: "success"
                                             });
                                         });
                                     }else{
                                         return res.status(200).send({
-                                            status: "success",
-                                            sales: vtaid
+                                            status: "success"
                                         });
                                     }
                                 }); 
@@ -150,8 +180,7 @@ const controller = {
                     }); 
                 }else{
                     return res.status(200).send({
-                        status: "success",
-                        sales: vtaid
+                        status: "success"
                     });
                 }
             });
@@ -561,7 +590,8 @@ const controller = {
         })
     },
     showg: (req, res) => {
-		mysqlConnection.query("SELECT v.*, case when v.ctvt_id = 0 then 'No' else 'Si' end contrato, c.cust_nombre FROM cstb_sales as v INNER JOIN cstb_customers as c On v.cust_id = c.cust_id ORDER BY v.vta_fecha Limit 20000;", (err, rows, fields)=>{
+		mysqlConnection.query("select m.*, c.cust_nombre empresa, s.vta_pesob pesob, s.vta_sacos sacos, s.vta_pneto pneto, s.vta_humed hum, s.vta_qqref qqref, s.vta_qqoro qqoro, s.vta_precio precio, s.vta_total total, " +
+                             "s.vta_cferef cferef, s.vta_deposito deposito, s.vta_tpago tpago, s.vta_contrato contrato, s.vta_carga carga, s.vta_tipoc tipoc, s.ctvt_id FROM cstb_salesm m Inner Join cstb_sales s on m.vtam_id = s.vta_id inner join cstb_customers c on m.cust_id=c.cust_id Order By m.vtam_fecha desc limit 20000;", (err, rows, fields)=>{
             if(err){
                 return res.status(500).send({
                     status: "Error",
