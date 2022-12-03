@@ -1,8 +1,8 @@
 //--Parametros de Heroku
-const vhost = process.env.HRKU_HOST
-const vuser = process.env.HRKU_USR
-const vpasw = process.env.HRKU_PWD
-const vdatb = process.env.HRKU_DB
+const vhost = process.env.HRKU_HOST || 'localhost'
+const vuser = process.env.HRKU_USR || 'root'
+const vpasw = process.env.HRKU_PWD || 'BDcomsandoval23*!'
+const vdatb = process.env.HRKU_DB || 'dbsandoval'
 
 module.exports = {
     database: {
