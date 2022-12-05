@@ -1,7 +1,8 @@
 'use strict'
-import {pool} from '../db.js'
+//import {pool} from '../db.js'
 const validator = require('validator')
 const mysqlConnection = require('../database');
+const pool = require('../db');
 
 const controller = {
     save: (req, res) => {
@@ -125,24 +126,9 @@ const controller = {
             });        
         })
     },
-    showg: (req, res) => {
-        /*return res.status(200).send({
-            status: "success",
-            message: "llegó al control!"
-        });*/
-        pool.query("SELECT * FROM cstb_employees ORDER BY emp_nombre;", (err, rows, fields)=>{
-            if(err){
-                return res.status(500).send({
-                    status: "Error",
-                    message: "Error al listar empleados!",
-                    error: err
-                })  
-            }
-            return res.status(200).send({
-                status: "success",
-                employees: rows 
-            });        
-        })
+    showg: async (req, res) => {
+        const [result] = await pool.query('SELECT * FROM cstb_employees ORDER BY emp_nombre;');
+        res.json(result[0])
     },
     showpre: (req, res) => {
 		mysqlConnection.query("SELECT distinct e.emp_id, e.emp_nombre, e.emp_saldo FROM cstb_employees As e INNER JOIN cstb_prestamos As c On e.emp_id=c.client_id WHERE c.pres_tipo='Empleado' and c.pres_sts = 'Activo' ORDER BY e.emp_nombre;", (err, rows, fields)=>{
