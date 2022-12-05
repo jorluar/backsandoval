@@ -7,7 +7,8 @@ const bodyParser = require('body-parser')
 const app = express();
 
 //-- Settings
-app.set('port', process.env.PORT || 4000);
+//app.set('port', process.env.PORT || 4000);
+app.set('port', 6659);
 
 //-- Middlewares
 // Configurar cabeceras y cors
