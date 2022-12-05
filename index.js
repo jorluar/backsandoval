@@ -1,7 +1,8 @@
 'use strict'
 
 const express = require('express');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const { application } = require('express');
 
 //-- Inicialización
 const app = express();
@@ -23,11 +24,14 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.json());
 
 //--Routes
+app.get('/', (req, res)=>{
+	res.send('Welcome to Server!')
+});
 //app.use(require('./routes/approutes'));
-var app_routes = require('./routes/approutes')
+//var app_routes = require('./routes/approutes')
 
 //--Reescribir rutas
-app.use('/api', app_routes)
+//app.use('/api', app_routes)
 
 //--Starting the Server
 app.listen(app.get('port'), ()=>{
