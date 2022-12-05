@@ -27,11 +27,11 @@ app.use(express.json());
 /*app.get('/', (req, res)=>{
 	res.send('Welcome to Server!')
 });*/
-app.use(require('./routes/approutes'));
-//var app_routes = require('./routes/approutes')
+//app.use(require('./routes/approutes'));
+var app_routes = require('./routes/approutes')
 
 //--Reescribir rutas
-//app.use('/', app_routes)
+app.use('/api', app_routes)
 
 //--Starting the Server
 app.listen(app.get('port'), ()=>{

@@ -126,7 +126,11 @@ const controller = {
         })
     },
     showg: (req, res) => {
-		mysqlConnection.query("SELECT * FROM cstb_employees ORDER BY emp_nombre;", (err, rows, fields)=>{
+        return res.status(200).send({
+            status: "success",
+            message: "llegó al control!"
+        });
+        /*mysqlConnection.query("SELECT * FROM cstb_employees ORDER BY emp_nombre;", (err, rows, fields)=>{
             if(err){
                 return res.status(500).send({
                     status: "Error",
@@ -138,7 +142,7 @@ const controller = {
                 status: "success",
                 employees: rows 
             });        
-        })
+        })*/
     },
     showpre: (req, res) => {
 		mysqlConnection.query("SELECT distinct e.emp_id, e.emp_nombre, e.emp_saldo FROM cstb_employees As e INNER JOIN cstb_prestamos As c On e.emp_id=c.client_id WHERE c.pres_tipo='Empleado' and c.pres_sts = 'Activo' ORDER BY e.emp_nombre;", (err, rows, fields)=>{
