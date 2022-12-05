@@ -24,14 +24,14 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.json());
 
 //--Routes
-app.get('/', (req, res)=>{
+/*app.get('/', (req, res)=>{
 	res.send('Welcome to Server!')
-});
-//app.use(require('./routes/approutes'));
+});*/
+app.use(require('./routes/approutes'));
 //var app_routes = require('./routes/approutes')
 
 //--Reescribir rutas
-//app.use('/api', app_routes)
+//app.use('/', app_routes)
 
 //--Starting the Server
 app.listen(app.get('port'), ()=>{
