@@ -130,7 +130,8 @@ const controller = {
             if(err){
                 return res.status(500).send({
                     status: "Error",
-                    message: "Error al listar empleados!"
+                    message: "Error al listar empleados!",
+                    error: err
                 })  
             }
             return res.status(200).send({
