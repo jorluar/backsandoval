@@ -128,7 +128,13 @@ const controller = {
     },
     showg: async (req, res) => {
         const [result] = await pool.query('SELECT * FROM cstb_employees ORDER BY emp_nombre;');
-        res.json(result[0])
+        var status;
+        if(result.length > 0){
+            status = "success"
+        }else{
+            status = "empty"
+        }
+        res.json({employees: result[0], status: status})
     },
     showpre: (req, res) => {
 		mysqlConnection.query("SELECT distinct e.emp_id, e.emp_nombre, e.emp_saldo FROM cstb_employees As e INNER JOIN cstb_prestamos As c On e.emp_id=c.client_id WHERE c.pres_tipo='Empleado' and c.pres_sts = 'Activo' ORDER BY e.emp_nombre;", (err, rows, fields)=>{
