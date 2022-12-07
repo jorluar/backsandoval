@@ -1,20 +1,30 @@
-//import { createPool } from "mysql2/promise";
-const {createPool} = require('mysql2/promise');
+'use strict'
 
-/*const pool = createPool({
-    user: 'root',
-    password: '6nhJOvtznYDASaGEYhmP',
-    host: 'containers-us-west-148.railway.app',
-    port: 6659,
-    database: 'railway'
-});*/
+const mysql = require('mysql');
 
+const vhost = 'containers-us-west-148.railway.app'
+const vuser = 'root'
+const vpasw = '6nhJOvtznYDASaGEYhmP'
+const vdatb = 'railway'
 
-const pool = createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'dbsandoval'
+const pool = mysql.createConnection({
+    connectionLimit : 1000,
+    connectTimeout  : 60 * 60 * 1000,
+    acquireTimeout  : 60 * 60 * 1000,
+    timeout         : 60 * 60 * 1000,
+    host: vhost,
+    user: vuser,
+    password: vpasw,
+    database: vdatb,
+    port: 6659
+});
+
+pool.connect((error)=>{
+    if(error){
+        console.error('El error de conexión es: ' + error)
+        return
+    }
+    console.log("BD connected successed")
 });
 
 module.exports = pool;

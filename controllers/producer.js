@@ -1,9 +1,10 @@
 'use strict'
 
 const validator = require('validator')
+//const mysqlConnection = require('../db');
 const mysqlConnection = require('../database');
 
-const controller = {
+const controller = { 
     save: (req, res) => {
 		//-- Recoger los parámetros de la petición
 		var params = req.body
@@ -128,9 +129,11 @@ const controller = {
     showg: (req, res) => {
 		mysqlConnection.query("SELECT * FROM cstb_producers WHERE prod_sts = 'Habilitado' ORDER BY prod_nombre;", (err, rows, fields)=>{
             if(err){
+                console.log('upss: ' + JSON.stringify(err))
                 return res.status(500).send({
                     status: "Error",
-                    message: "Error al listar productores!"
+                    message: "Error al listar productores!",
+                    error: err
                 })  
             }
             return res.status(200).send({

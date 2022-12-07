@@ -2,7 +2,7 @@
 //import {pool} from '../db.js'
 const validator = require('validator')
 const mysqlConnection = require('../database');
-const pool = require('../db');
+//const pool = require('../db');
 
 const controller = {
     save: (req, res) => {

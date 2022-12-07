@@ -34,15 +34,5 @@ app.use('/api', app_routes)
 
 //--Starting the Server
 app.listen(app.get('port'), ()=>{
-	const vhost = process.env.HRKU_HOST;
-	const vuser = process.env.HRKU_USR;
-	const vpasw = process.env.HRKU_PWD;
-	const vdatb = process.env.HRKU_DB;
-
     console.log('Server on Port: ', app.get('port'));
-	console.log('--------------')
-	console.log('host: ' + vhost)
-	console.log('user: ' + vuser)
-	console.log('passw: ' + vpasw)
-	console.log('db: ' + vdatb)
 });

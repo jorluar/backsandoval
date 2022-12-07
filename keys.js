@@ -10,10 +10,15 @@ const vdatb = 'railway'
 
 module.exports = {
     database: {
+        connectionLimit : 1000,
+        connectTimeout  : 60 * 60 * 1000,
+        acquireTimeout  : 60 * 60 * 1000,
+        timeout         : 60 * 60 * 1000,
         host: vhost,
         user: vuser,
         password: vpasw,
-        database: vdatb
+        database: vdatb,
+        port:6659
     }
 };
 
