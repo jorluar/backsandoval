@@ -4,7 +4,7 @@ const validator = require('validator')
 const mysqlConnection = require('../database');
 
 const controller = {
-    save: (req, res) => {
+    save: (req, res) => { 
 		//-- Recoger los parámetros de la petición
 		var params = req.body
 
@@ -101,7 +101,7 @@ const controller = {
 		}
     },
     show: (req, res) => { 
-		mysqlConnection.query("Select d.add_id, concat(d.add_comu,'-',m.muni_name, '-', t.depto_name) direccion from cstb_addresses d inner join cstb_municipios m On (d.muni_id=m.muni_id) inner join cstb_departamentos t On (m.depto_id=t.depto_id) Order by D.add_comu;", (err, rows, fields)=>{
+		mysqlConnection.query("Select d.add_id, concat(d.add_comu,'-',m.muni_name, '-', t.depto_name) direccion from cstb_addresses d inner join cstb_municipios m On (d.muni_id=m.muni_id) inner join cstb_departamentos t On (m.depto_id=t.depto_id) Order by d.add_comu;", (err, rows, fields)=>{
             if(err){
                 return res.status(500).send({
                     status: "Error",
