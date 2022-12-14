@@ -10,10 +10,10 @@ const vdatb = 'railway'
 
 module.exports = {
     database: {
-        host: 'localhost',
-        user: 'root',
-        password: '',
-        database: 'dbsandoval'
+        host: vhost,
+        user: vuser,
+        password: vpasw,
+        database: vdatb
     }
 };
 

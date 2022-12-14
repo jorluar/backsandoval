@@ -115,8 +115,10 @@ const controller = {
         })
     },
     showg: (req, res) => {
-		mysqlConnection.query("SELECT a.add_id, a.add_comu, m.muni_id, m.muni_name, d.depto_name FROM cstb_addresses a INNER JOIN cstb_municipios As m On (a.muni_id=m.muni_id) INNER JOIN cstb_departamentos As d On m.depto_id = d.depto_id ORDER BY a.add_comu;", (err, rows, fields)=>{
+        console.log('probando address')
+		/*mysqlConnection.query("SELECT a.add_id, a.add_comu, m.muni_id, m.muni_name, d.depto_name FROM cstb_addresses a INNER JOIN cstb_municipios As m On (a.muni_id=m.muni_id) INNER JOIN cstb_departamentos As d On m.depto_id = d.depto_id ORDER BY a.add_comu;", (err, rows, fields)=>{
             if(err){
+                console.log(err)
                 return res.status(500).send({
                     status: "Error",
                     message: "Error al listar domicilios!"
@@ -126,7 +128,11 @@ const controller = {
                 status: "success",
                 address: rows
             });        
-        })
+        });*/
+        return res.status(200).send({
+            status: "success",
+            address: "ok"
+        });
     }
 }
 
