@@ -27,10 +27,11 @@ const controller = {
 			//-- Crear objeto de productor
             const {prod_nombre, prod_telefono, prod_identidad, prod_rtn, prod_sts, prod_tipo, prod_clave, prod_libro, add_id} = params;
             const query = `
-                INSERT INTO cstb_producers (prod_nombre, prod_telefono, prod_identidad, prod_rtn, prod_sts, prod_saldo, prod_tipo, prod_clave, prod_libro, add_id) VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?, ?);
+                INSERT INTO cstb_producers (prod_nombre, prod_telefono, prod_identidad, prod_rtn, prod_sts, prod_saldo, prod_tipo, prod_clave, prod_libro, add_id) VALUES (?, ?, ?, ?, ?, 0, ?, ?, ?, ?);
             `
             mysqlConnection.query(query, [prod_nombre, prod_telefono, prod_identidad, prod_rtn, prod_sts, prod_tipo, prod_clave, prod_libro, add_id], (err, rows, fields)=>{
                 if(err){
+                    //console.log(query)
                     return res.status(500).send({
                         status: "Error",
                         message: "Error al registrar productor!",

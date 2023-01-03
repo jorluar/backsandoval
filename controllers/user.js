@@ -305,8 +305,10 @@ const controller = {
         });
 	},
     show: (req, res) => {
+        console.log('conect usuarios')
 		mysqlConnection.query("SELECT * FROM cstb_users As u INNER JOIN cstb_employees As e ON (u.emp_id = e.emp_id) ORDER BY u.usr_usuario;", (err, rows, fields)=>{
             if(err){
+                console.log(err)
                 return res.status(500).send({
                     status: "Error",
                     message: "Error al listar usuarios!"
