@@ -109,6 +109,7 @@ router.get('/shop_showrpcpra/:id', shopsController.showrpcpra)
 router.post('/shop_registerpfc', shopsController.savepgfc) //--Registrar pago a compra
 router.post('/dshop_register', shopsController.savedt) //--Registrar detalle
 router.post('/shop_showrpt', shopsController.showrpt)
+router.get('/shop_updprod/:idf/:idp', shopsController.shop_updprod)
 
 //-- Rutas de ventas --//
 router.post('/sale_register', salesController.save)

@@ -289,7 +289,7 @@ const controller = {
         var exquery;
 
         if(idcli == 0){
-            query="SELECT s.*, p.prod_nombre, p.prod_rtn rtn FROM cstb_shop as s INNER JOIN cstb_coffeeweight as w On (s.wcafe_id = w.wcafe_id) INNER JOIN cstb_producers as p On (w.prod_id = p.prod_id) " + 
+            query="SELECT s.*, p.prod_id, p.prod_nombre, p.prod_rtn rtn, w.wcafe_id idshop FROM cstb_shop as s INNER JOIN cstb_coffeeweight as w On (s.wcafe_id = w.wcafe_id) INNER JOIN cstb_producers as p On (w.prod_id = p.prod_id) " + 
             "WHERE s.cfsp_fecha Between '"+fhini+"' and '"+fhfin+"' ORDER BY s.cfsp_fecha limit 50000;"
 
             exquery="SELECT s.cfsp_id idcp, s.cfsp_fecha Fecha, p.prod_nombre productor, p.prod_rtn rtn, (t.dtwcafe_peso - t.dtwcafe_sacos) pneto, t.dtwcafe_phum hum, c.dtcfsp_qqoro qq, s.cfsp_totalf tfac, s.cfsp_totmol tmol, s.cfsp_totneto tneto, s.cfsp_totalp tfpg, s.cfsp_totpend tfpd, c.dtcfsp_precqq precio, c.dtcfsp_importef importe, t.dtwcafe_tipo tipo, c.dtcfsp_totalph totalph, t.dtwcafe_peso peso, t.dtwcafe_sacos sacos, c.dtcfsp_qrefin qref " + 
@@ -300,7 +300,7 @@ const controller = {
             "d.dtcfsp_precqq Precio, d.dtcfsp_totalph Total_PH, d.dtcfsp_qrefin QQ_Ref, d.dtcfsp_qqoro QQ_Oro, d.dtcfsp_importef Importe FROM cstb_shop as s INNER JOIN cstb_coffeeweight as w On (s.wcafe_id = w.wcafe_id) " + 
             "INNER JOIN cstb_producers as p On (w.prod_id = p.prod_id) INNER JOIN cstb_detcoffeeshop d On d.cfsp_id=w.wcafe_id WHERE s.cfsp_fecha Between '"+fhini+"' and '"+fhfin+"' ORDER BY s.cfsp_fecha limit 50000;"*/
         }else{ 
-            query="SELECT s.*, p.prod_nombre FROM cstb_shop as s INNER JOIN cstb_coffeeweight as w On (s.wcafe_id = w.wcafe_id) INNER JOIN cstb_producers as p On (w.prod_id = p.prod_id) " + 
+            query="SELECT s.*, p.prod_id, p.prod_nombre, w.wcafe_id idshop FROM cstb_shop as s INNER JOIN cstb_coffeeweight as w On (s.wcafe_id = w.wcafe_id) INNER JOIN cstb_producers as p On (w.prod_id = p.prod_id) " + 
             "WHERE w.prod_id = "+idcli+" and s.cfsp_fecha Between '"+fhini+"' and '"+fhfin+"' ORDER BY s.cfsp_fecha limit 50000;"
 
             exquery="SELECT s.cfsp_id idcp, s.cfsp_fecha Fecha, p.prod_nombre productor, p.prod_rtn rtn, (t.dtwcafe_peso - t.dtwcafe_sacos) pneto, t.dtwcafe_phum hum, c.dtcfsp_qqoro qq, s.cfsp_totalf tfac, s.cfsp_totmol tmol, s.cfsp_totneto tneto, s.cfsp_totalp tfpg, s.cfsp_totpend tfpd, c.dtcfsp_precqq precio, c.dtcfsp_importef importe, t.dtwcafe_tipo tipo, c.dtcfsp_totalph totalph, t.dtwcafe_peso peso, t.dtwcafe_sacos sacos, c.dtcfsp_qrefin qref " + 
@@ -359,6 +359,18 @@ const controller = {
                     shops: rows
                 });       
             });
+    },
+    shop_updprod: (req, res) =>{
+        var idf = req.params.idf;
+        var idp = req.params.idp;
+        mysqlConnection.query("UPDATE cstb_coffeeweight set prod_id="+idp+" WHERE wcafe_id = "+idf, (err, rowd, fields)=>{
+            if(err){
+                console.log(err) 
+            }
+            return res.status(200).send({
+                status: "success"
+            }); 
+        }); 
     }
 }
 
