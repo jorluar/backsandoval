@@ -280,6 +280,21 @@ const controller = {
             });        
         })
     },
+    showdet: (req, res) => {
+        var idc = req.params.id;
+		mysqlConnection.query("SELECT dtcfsp_totltph latasph, dtcfsp_phum hum, dtcfsp_qrefin qref, dtcfsp_qqoro qoro, dtcfsp_precqq precioq, dtcfsp_totalph totalph, dtcfsp_importef importe FROM cstb_detcoffeeshop WHERE cfsp_id = "+idc+";", (err, rows, fields)=>{
+            if(err){
+                return res.status(500).send({
+                    status: "Error",
+                    message: "Error al listar detalle de compras!"
+                })  
+            }
+            return res.status(200).send({
+                status: "success",
+                shops: rows
+            });        
+        })
+    },
     showrpt: (req, res) => {
         var params = req.body
         var fhini=params.fhini + ' 00:00:00'
