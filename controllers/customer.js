@@ -112,6 +112,7 @@ const controller = {
     show: (req, res) => {
 		mysqlConnection.query("SELECT cust_id, cust_nombre FROM cstb_customers ORDER BY cust_nombre;", (err, rows, fields)=>{
             if(err){
+                console.log('error: ' + err)
                 return res.status(500).send({
                     status: "Error",
                     message: "Error al listar clientes!"
@@ -123,7 +124,7 @@ const controller = {
             });        
         })
     },
-    //--Clientes sin contrato de venta
+    //--Clientes sin contrato de venta 
     /*showc: (req, res) => {
 		mysqlConnection.query("", (err, rows, fields)=>{
             if(err){
