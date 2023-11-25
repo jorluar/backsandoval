@@ -1,10 +1,21 @@
 'use strict'
 
-const mysql = require('mysql');
 const { promisify } = require('util');
-const { database } = require('./keys');
+const mysql = require('mysql2');
 
-const pool = mysql.createPool(database);
+const vhost = 'monorail.proxy.rlwy.net'
+const vuser = 'root'
+const vpasw = 'eHFEEg4-Had-6bFedc35f1fE4GcBcHa2'
+const vdatb = 'railway'
+const vport = '54346'
+
+const pool = mysql.createPool({
+    host: vhost,
+    user: vuser,
+    password: vpasw,
+    database: vdatb,
+    port: vport 
+});
 
 pool.getConnection((err, connection)=>{
     if(err){
@@ -27,3 +38,17 @@ pool.getConnection((err, connection)=>{
 pool.query = promisify(pool.query);
 
 module.exports = pool;
+
+/*
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'dbsandoval'
+
+----------------------------------------
+    host: vhost,
+    user: vuser,
+    password: vpasw,
+    database: vdatb,
+    port: vport
+*/
